@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Resume Analysis Result</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e293b;
+        }
+
+        h2 {
+            color: #334155;
+            margin-top: 30px;
+        }
+
+        .score {
+            font-size: 45px;
+            color: #2563eb;
+            font-weight: bold;
+            text-align: center;
+            margin: 15px 0;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 18px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: #2563eb;
+            width: 0%;
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .skill {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 6px;
+        }
+
+        .matched {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .missing {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .resume-text {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            line-height: 1.6;
+        }
+
+        .button {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .button:hover {
+            background: #1d4ed8;
+        }
+
+        .empty-message {
+            color: #64748b;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>AI Resume Analyzer</h1>
+
+        <h2>Job Match Score</h2>
+
+        <div class="score" id="score">
+            {{ score }}%
+        </div>
+
+        <div class="progress-container">
+
+            <div class="progress-bar" id="progressBar"></div>
+
+        </div>
+
+        <h2>Matched Skills</h2>
+
+        {% for skill in found %}
+
+            <span class="skill matched">
+                {{ skill }}
+            </span>
+
+        {% empty %}
+
+            <p class="empty-message">
+                No matching skills found.
+            </p>
+
+        {% endfor %}
+
+        <h2>Missing Skills</h2>
+
+        {% for skill in missing %}
+
+            <span class="skill missing">
+                {{ skill }}
+            </span>
+
+        {% empty %}
+
+            <p class="empty-message">
+                No missing skills found.
+            </p>
+
+        {% endfor %}
+
+        <h2>Extracted Resume Text</h2>
+
+        <div class="resume-text">{{ text }}</div>
+
+        <a href="/" class="button">
+            Analyze Another Resume
+        </a>
+
+    </div>
+
+    <script>
+
+        // Get score from Django template
+        const score = Number("{{ score|default:0 }}");
+
+        // Get progress bar
+        const progressBar = document.getElementById("progressBar");
+
+        // Set progress bar width
+        progressBar.style.width = Math.min(100, Math.max(0, score)) + "%";
+
+    </script>
+
+</body>
+
+</html>

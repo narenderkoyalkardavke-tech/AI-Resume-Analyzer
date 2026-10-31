@@ -1,0 +1,85 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>AI Resume Analyzer</title>
+
+<!-- Connect External CSS -->
+<link rel="stylesheet" href="{% static 'resume_app/style.css' %}">
+```
+
+</head>
+
+<body>
+
+```
+<div class="container">
+
+    <h1>AI Resume Analyzer</h1>
+
+    <p>
+        Upload your resume and enter a job description.
+        Our system will analyze your resume and identify matching skills.
+    </p>
+
+    <!-- Error Message -->
+
+    {% if error %}
+        <div class="error-message">
+            {{ error }}
+        </div>
+    {% endif %}
+
+    <!-- Resume Upload Form -->
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <label for="resume">
+            Upload Your Resume (PDF)
+        </label>
+
+        <input
+            type="file"
+            id="resume"
+            name="resume"
+            accept=".pdf"
+            required
+        >
+
+        <label for="job_description">
+            Enter Job Description
+        </label>
+
+        <textarea
+            id="job_description"
+            name="job_description"
+            rows="8"
+            placeholder="Paste the job description here..."
+            required
+        ></textarea>
+
+        <button type="submit">
+            Analyze Resume
+        </button>
+
+    </form>
+
+</div>
+
+<!-- Connect External JavaScript -->
+<script src="{% static 'resume_app/script.js' %}"></script>
+```
+
+</body>
+
+</html>
+
